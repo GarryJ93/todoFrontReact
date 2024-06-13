@@ -40,6 +40,16 @@ export const changeState = async (id: number) => {
     console.error("Error changing state:", err);
     throw err;
   }
-}
+};
 
-
+export const changeTitle = async (id: number, title: string) => {
+  try {
+    const response = await axios.patch(`http://localhost:8080/api/title/${id}`, {
+      title: title,
+    });
+    return response.data;
+  } catch (err) {
+    console.error("Error changing title:", err);
+    throw err;
+  }
+};
