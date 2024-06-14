@@ -12,6 +12,18 @@ wcs-button {
     border: none;
   }
 
+  .progress {
+    margin-top: 0.5em;
+  }
+
+  .flex-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 2em;
+}
+
   @media (max-width: 734px) {
     wcs-button {
     margin-bottom: 0.5em;

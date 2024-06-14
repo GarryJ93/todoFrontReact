@@ -7,7 +7,7 @@ import {
   fetchTasks,
   sortByBoolean,
 } from "../services/TaskService";
-import { WcsButton } from "wcs-react";
+import { WcsButton, WcsMatIcon } from "wcs-react";
 import Cards from "../components/Cards";
 import { useNavigate } from "react-router-dom";
 import SelectFilter from "../components/SelectFilter";
@@ -110,28 +110,36 @@ const Home: React.FC = () => {
   return (
     <div className="home">
       <WcsButton className="wcs-primary btn-add" onClick={goToAddTask}>
-        Ajouter une tâche
+        <WcsMatIcon
+          size="s"
+          icon="add_task"
+          family="filled"
+        ></WcsMatIcon>
+        <span className="btn-name">Ajouter une tâche</span>
+        
       </WcsButton>
       <h2>Voici vos tâches :</h2>
       <SelectFilter
         onSelectChange={handleSelectChange}
         selectedValue={selectedValue}
-      /><div className="flex">
-      {tasksToDisplay.length > 0 ? (
-        tasksToDisplay.map((task) => (
-          
-            <div className="card-container">
-            <Cards
-            key={task.id}
-            task={task}
-            onDeleteTask={onDeleteTask}
-            onChangingState={onChangingState}
-              onChangingTitle={onChangingTitle}
-          /></div>
-        ))
-      ) : (
-        <div className="no-task">Vous n'avez pas encore de tâche prévue.</div>
-      )}</div>
+      />
+      <div className="flex">
+        {tasksToDisplay.length > 0 ? (
+          tasksToDisplay.map((task) => (
+            <div className="card-container" key={task.id}>
+              <Cards
+                key={task.id}
+                task={task}
+                onDeleteTask={onDeleteTask}
+                onChangingState={onChangingState}
+                onChangingTitle={onChangingTitle}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="no-task">Vous n'avez pas encore de tâche prévue.</div>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { addTask } from "../services/TaskService";
-import { WcsButton, WcsInput } from "wcs-react";
+import { WcsButton, WcsInput, WcsMatIcon } from "wcs-react";
 import { useNavigate } from "react-router-dom";
 import './addTask.css';
 
@@ -20,7 +20,12 @@ const AddTaskComponent: React.FC = () => {
   return (
     <div className="add">
       <WcsButton class="wcs-light back" onClick={() => navigate("/")}>
-        Retour
+        <WcsMatIcon
+          size="s"
+          icon="arrow_back_ios"
+          family="filled"
+        ></WcsMatIcon>
+        <span className="btn-name">Retour</span>
       </WcsButton>
       <h2>Veuillez saisir une tâche</h2>
       <WcsInput

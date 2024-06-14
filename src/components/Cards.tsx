@@ -4,6 +4,8 @@ import {
   WcsCardBody,
   WcsCheckbox,
   WcsInput,
+  WcsMatIcon,
+  WcsProgressRadial,
 } from "wcs-react";
 import { Task } from "../models/task";
 import { useState, useEffect } from "react";
@@ -40,13 +42,35 @@ const Cards: React.FC<CardsProps> = ({
       <WcsCard mode="raised">
         <WcsCardBody>
           {!isEditing ? (
-            <>
-              <WcsCheckbox
-                checked={task.done}
-                onWcsChange={() => onChangingState(task.id)}
-              >
-                {titleCase(task.title)}
-              </WcsCheckbox>
+            <div>
+              {task.done ? (
+                <WcsMatIcon
+                  size="m"
+                  icon="done_all"
+                  family="outlined"
+                ></WcsMatIcon>
+              ) : (
+                <WcsMatIcon
+                  size="m"
+                  icon="assignment_late"
+                  family="outlined"
+                ></WcsMatIcon>
+              )}
+
+              <div className="flex-card">
+                <WcsCheckbox
+                  checked={task.done}
+                  onWcsChange={() => onChangingState(task.id)}
+                >
+                  {titleCase(task.title)}
+                </WcsCheckbox>
+                <div className="progress">
+                  <WcsProgressRadial
+                    size={40}
+                    value={task.done ? 100 : 0}
+                  ></WcsProgressRadial>
+                </div>
+              </div>
               <div className="action-btn">
                 <WcsButton
                   className="wcs-danger"
@@ -63,13 +87,15 @@ const Cards: React.FC<CardsProps> = ({
                   Modifier
                 </WcsButton>
               </div>
-            </>
+            </div>
           ) : (
             <>
               <WcsInput
                 type="text"
-                  value=""
-                  id="input"
+                value=""
+                id="input"
+                prefix-label="
+                Nouveau titre : "
                 placeholder={title}
                 onWcsChange={(e) => setTitle(e.target.value as string)}
               />
