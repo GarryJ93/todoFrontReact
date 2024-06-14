@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addTask } from "./services/TaskService";
+import { addTask } from "../services/TaskService";
 import { WcsButton, WcsInput } from "wcs-react";
 import { useNavigate } from "react-router-dom";
 

@@ -5,12 +5,13 @@ import {
   WcsCheckbox,
   WcsInput,
 } from "wcs-react";
-import { Task } from "./models/task";
+import { Task } from "../models/task";
 import {
   CheckboxChangeEventDetail,
   WcsCheckboxCustomEvent,
 } from "wcs-core";
 import { useState, useEffect } from "react";
+import titleCase from "../hooks/titleCase";
 
 interface CardsProps {
   task: Task;
@@ -57,7 +58,7 @@ const Cards: React.FC<CardsProps> = ({
                 checked={task.done}
                 onWcsChange={handleCheckboxChange}
               >
-                {task.title}
+                {titleCase(task.title)}
               </WcsCheckbox>
               <div>
                 <WcsButton

@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { Task } from "./models/task";
+import { Task } from "../models/task";
 import {
   changeState,
   changeTitle,
   deleteTask,
   fetchTasks,
-} from "./services/TaskService";
+} from "../services/TaskService";
 import { WcsButton } from "wcs-react";
-import Cards from "./Cards";
+import Cards from "../components/Cards";
 import { useNavigate } from "react-router-dom";
+import SelectFilter from "../components/SelectFilter";
 
 const Home: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [, setError] = useState<string | null>(null);
+  const [selectedValue, setSelectedValue] = useState<string>("1");
+  const [tasksToDisplay, setTasksToDisplay] = useState<Task[]>([]);
+  const [, setFiltered] = useState<boolean>(false);
   const navigate = useNavigate();
+
   const goToAddTask = () => {
     navigate("/add-task");
   };
@@ -27,6 +32,7 @@ const Home: React.FC = () => {
           isEditing: false,
         }));
         setTasks(tasksWithEditingFlag);
+        applyFilter(tasksWithEditingFlag, selectedValue);
       } catch (err) {
         setError("Failed to fetch tasks");
         console.error(err);
@@ -34,13 +40,14 @@ const Home: React.FC = () => {
     };
 
     getTasks();
-  }, []);
+  }, [selectedValue]);
 
   const onDeleteTask = async (id: number) => {
     try {
       await deleteTask(id);
       const updatedTasks = tasks.filter((task) => task.id !== id);
       setTasks(updatedTasks);
+      applyFilter(updatedTasks, selectedValue);
     } catch (err) {
       setError("Failed to delete task");
       console.error(err);
@@ -54,6 +61,7 @@ const Home: React.FC = () => {
         task.id === id ? { ...task, done: !task.done } : task
       );
       setTasks(updatedTasks);
+      applyFilter(updatedTasks, selectedValue);
     } catch (err) {
       setError("Failed to update");
       console.error(err);
@@ -67,20 +75,46 @@ const Home: React.FC = () => {
         task.id === id ? { ...task, title: newTitle, isEditing: false } : task
       );
       setTasks(updatedTasks);
+      applyFilter(updatedTasks, selectedValue);
     } catch (err) {
       setError("Failed to update");
       console.error(err);
     }
   };
 
+  const handleSelectChange = (value: string) => {
+    setSelectedValue(value);
+    applyFilter(tasks, value);
+  };
+
+  const applyFilter = (tasks: Task[], filter: string) => {
+    let updatedTasksToDisplay = [...tasks];
+
+    if (filter === "1") {
+      setFiltered(false);
+    } else if (filter === "2") {
+      setFiltered(true);
+      updatedTasksToDisplay = tasks.filter((task) => !task.done);
+    } else if (filter === "3") {
+      setFiltered(true);
+      updatedTasksToDisplay = tasks.filter((task) => task.done);
+    }
+
+    setTasksToDisplay(updatedTasksToDisplay);
+  };
+
   return (
     <div>
-      <h2>Voici vos tâches :</h2>
       <WcsButton className="wcs-primary" shape="round" onClick={goToAddTask}>
         Ajouter une tâche
       </WcsButton>
-      {tasks.length > 0 ? (
-        tasks.map((task) => (
+      <h2>Voici vos tâches :</h2>
+      <SelectFilter
+        onSelectChange={handleSelectChange}
+        selectedValue={selectedValue}
+      />
+      {tasksToDisplay.length > 0 ? (
+        tasksToDisplay.map((task) => (
           <Cards
             key={task.id}
             task={task}

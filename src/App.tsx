@@ -8,7 +8,7 @@ import routes from './RoutesConfig';
 
 defineCustomElements();
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <>
       <WcsHeader>
