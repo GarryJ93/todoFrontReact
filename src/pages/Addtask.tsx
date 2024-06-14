@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { addTask } from "../services/TaskService";
 import { WcsButton, WcsInput } from "wcs-react";
 import { useNavigate } from "react-router-dom";
+import './addTask.css';
 
 const AddTaskComponent: React.FC = () => {
     const [title, setTitle] = useState<string>("");
@@ -17,14 +18,21 @@ const AddTaskComponent: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="add">
+      <WcsButton class="wcs-light back" onClick={() => navigate("/")}>
+        Retour
+      </WcsButton>
+      <h2>Veuillez saisir une tâche</h2>
       <WcsInput
         type="text"
+        id="input-add"
         value={typeof title === "string" ? title : ""}
         placeholder="Enter task title"
         onWcsChange={(e) => setTitle(e.target.value as string)}
       />
-      <WcsButton onClick={() => handleAddTask(title)}>Add Task</WcsButton>
+      <WcsButton className="back" onClick={() => handleAddTask(title)}>
+        Add Task
+      </WcsButton>
     </div>
   );
 };

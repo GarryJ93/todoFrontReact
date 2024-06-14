@@ -6,12 +6,9 @@ import {
   WcsInput,
 } from "wcs-react";
 import { Task } from "../models/task";
-import {
-  CheckboxChangeEventDetail,
-  WcsCheckboxCustomEvent,
-} from "wcs-core";
 import { useState, useEffect } from "react";
 import titleCase from "../hooks/titleCase";
+import './cards.css'
 
 interface CardsProps {
   task: Task;
@@ -33,19 +30,9 @@ const Cards: React.FC<CardsProps> = ({
     setTitle(task.title);
   }, [task.title]);
 
-  const handleCheckboxChange = (
-    e: WcsCheckboxCustomEvent<CheckboxChangeEventDetail>
-  ) => {
-    onChangingState(task.id);
-  };
-
   const handleSaveTitle = (id: number, title: string) => {
     onChangingTitle(id, title);
     setIsEditing(false);
-  };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
   };
 
   return (
@@ -56,14 +43,13 @@ const Cards: React.FC<CardsProps> = ({
             <>
               <WcsCheckbox
                 checked={task.done}
-                onWcsChange={handleCheckboxChange}
+                onWcsChange={() => onChangingState(task.id)}
               >
                 {titleCase(task.title)}
               </WcsCheckbox>
-              <div>
+              <div className="action-btn">
                 <WcsButton
                   className="wcs-danger"
-                  shape="round"
                   size="m"
                   onClick={() => onDeleteTask(task.id)}
                 >
@@ -71,9 +57,8 @@ const Cards: React.FC<CardsProps> = ({
                 </WcsButton>
                 <WcsButton
                   className="wcs-warning"
-                  shape="round"
                   size="m"
-                  onClick={handleEditClick}
+                  onClick={() => setIsEditing(true)}
                 >
                   Modifier
                 </WcsButton>
@@ -83,7 +68,8 @@ const Cards: React.FC<CardsProps> = ({
             <>
               <WcsInput
                 type="text"
-                value=""
+                  value=""
+                  id="input"
                 placeholder={title}
                 onWcsChange={(e) => setTitle(e.target.value as string)}
               />
@@ -92,6 +78,9 @@ const Cards: React.FC<CardsProps> = ({
                 onClick={() => handleSaveTitle(task.id, title)}
               >
                 Valider
+              </WcsButton>
+              <WcsButton class="wcs-danger" onClick={() => setIsEditing(false)}>
+                Annuler
               </WcsButton>
             </>
           )}

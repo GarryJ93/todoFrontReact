@@ -1,0 +1,41 @@
+.flex {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 0 2em;
+}
+
+.card-container {
+    width: 45%;
+    margin: 1em;
+}
+
+.home {
+    padding: 1em 2em;
+  }
+
+  h2 {
+    margin-top: 1em;
+  }
+
+  .btn-add {
+    margin: 1em;
+  }
+
+  .no-task {
+    margin-top: 2em;
+    font-weight: bold;
+  }
+
+@media (max-width: 734px) {
+
+    .cards {
+    flex-direction: column;
+  }
+
+  .card-container {
+    width: 100%;
+    margin: 1em 0;
+  }
+  }

@@ -1,0 +1,19 @@
+wcs-button {
+    margin: 0 0.5em;
+  }
+
+  .action-btn {
+    margin-top: 2em;
+  }
+
+  #input {
+    width: 90%;
+    margin-bottom: 1em;
+    border: none;
+  }
+
+  @media (max-width: 734px) {
+    wcs-button {
+    margin-bottom: 0.5em;
+  }
+  }

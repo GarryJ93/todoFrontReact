@@ -5,11 +5,13 @@ import {
   changeTitle,
   deleteTask,
   fetchTasks,
+  sortByBoolean,
 } from "../services/TaskService";
 import { WcsButton } from "wcs-react";
 import Cards from "../components/Cards";
 import { useNavigate } from "react-router-dom";
 import SelectFilter from "../components/SelectFilter";
+import './home.css';
 
 const Home: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -31,6 +33,7 @@ const Home: React.FC = () => {
           ...task,
           isEditing: false,
         }));
+        sortByBoolean(tasksWithEditingFlag);
         setTasks(tasksWithEditingFlag);
         applyFilter(tasksWithEditingFlag, selectedValue);
       } catch (err) {
@@ -60,6 +63,7 @@ const Home: React.FC = () => {
       const updatedTasks = tasks.map((task) =>
         task.id === id ? { ...task, done: !task.done } : task
       );
+      sortByBoolean(updatedTasks);
       setTasks(updatedTasks);
       applyFilter(updatedTasks, selectedValue);
     } catch (err) {
@@ -104,28 +108,30 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div>
-      <WcsButton className="wcs-primary" shape="round" onClick={goToAddTask}>
+    <div className="home">
+      <WcsButton className="wcs-primary btn-add" onClick={goToAddTask}>
         Ajouter une tâche
       </WcsButton>
       <h2>Voici vos tâches :</h2>
       <SelectFilter
         onSelectChange={handleSelectChange}
         selectedValue={selectedValue}
-      />
+      /><div className="flex">
       {tasksToDisplay.length > 0 ? (
         tasksToDisplay.map((task) => (
-          <Cards
+          
+            <div className="card-container">
+            <Cards
             key={task.id}
             task={task}
             onDeleteTask={onDeleteTask}
             onChangingState={onChangingState}
-            onChangingTitle={onChangingTitle}
-          />
+              onChangingTitle={onChangingTitle}
+          /></div>
         ))
       ) : (
-        <div>Vous n'avez pas encore de tâche prévue.</div>
-      )}
+        <div className="no-task">Vous n'avez pas encore de tâche prévue.</div>
+      )}</div>
     </div>
   );
 };

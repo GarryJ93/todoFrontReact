@@ -1,5 +1,15 @@
 import axios from 'axios'
+import { Task } from '../models/task';
 
+
+
+
+export const sortByBoolean = (taskArray: Task[]) : Task[] =>{
+    taskArray = taskArray.sort(function (a, b) {
+      return a.done > b.done ? 0 : a ? -1 : 0;
+    });
+    return taskArray
+  }
 
 export const fetchTasks = async () => {
   try {

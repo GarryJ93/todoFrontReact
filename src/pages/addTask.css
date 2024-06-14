@@ -1,0 +1,17 @@
+#input-add {
+    width: 50%;
+    margin: 2em 0 2em 2em;
+    border: none;
+  }
+
+  h2 {
+    margin: 2em;
+  }
+
+  .add {
+    padding: 1em 2em;
+  }
+
+  .back {
+    margin-top: 1em;
+  }
